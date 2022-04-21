@@ -35,6 +35,7 @@ start() {
     ./lib/util/wait-for-port 6060
     sleep 30s
     "${CSCLI}" decisions delete --all
+    "${CSCLI}" alertss delete --all
 }
 
 stop() {
