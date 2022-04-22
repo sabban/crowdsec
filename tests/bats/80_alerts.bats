@@ -9,6 +9,7 @@ setup_file() {
 
 teardown_file() {
     load "../lib/teardown_file.sh"
+    [ -n "${PACKAGE_TESTING}" ] && (sleep 30s; "${CSCLI}" alerts decisions delete --all)
 }
 
 setup() {
