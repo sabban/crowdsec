@@ -5,11 +5,11 @@ set -u
 
 setup_file() {
     load "../lib/setup_file.sh"
+    [ -n "${PACKAGE_TESTING}" ] && (sleep 30s; "${CSCLI}" alerts delete --all)
 }
 
 teardown_file() {
     load "../lib/teardown_file.sh"
-    [ -n "${PACKAGE_TESTING}" ] && (sleep 30s; "${CSCLI}" alerts decisions delete --all)
 }
 
 setup() {
@@ -56,7 +56,7 @@ declare stderr
 
     run -0 cscli alerts list -o json
     run -0 jq -c '.[].decisions[0] | [.origin, .scenario, .scope, .simulated, .type, .value]' <(output)
-    assert_line "[\"cscli\",\"manual 'ban' from 'githubciXXXXXXXXXXXXXXXXXXXXXXXX([a-zA-Z0-9]{16})?'\",\"Ip\",false,\"ban\",\"10.20.30.40\"]"
+    assert_line --regexp "[\"cscli\",\"manual 'ban' from 'githubciXXXXXXXXXXXXXXXXXXXXXXXX([a-zA-Z0-9]{16})?'\",\"Ip\",false,\"ban\",\"10.20.30.40\"]"
 
     run -0 cscli alerts list -o raw
     assert_line "id,scope,value,reason,country,as,decisions,created_at"
