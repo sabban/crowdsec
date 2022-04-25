@@ -5,7 +5,6 @@ set -u
 
 setup_file() {
     load "../lib/setup_file.sh"
-    [ -n "${PACKAGE_TESTING}" ] && (sleep 30s; "${CSCLI}" alerts delete --all)
 }
 
 teardown_file() {
